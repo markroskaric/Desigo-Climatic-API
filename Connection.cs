@@ -1,6 +1,5 @@
 ﻿using System.Text;
 using System.Net.Http.Headers;
-using Newtonsoft.Json.Linq;
 
 namespace DesigoClimatixApi
 {
@@ -118,7 +117,30 @@ namespace DesigoClimatixApi
         public int StatusCode { get; set; }
         public string Content { get; set; } = string.Empty;
         public string ErrorMessage { get; set; } = string.Empty;
+        public string GetValueWithoutLib(string content, string base64Id)
+        {
+            try
+            {
+                string searchPattern = "\"" + base64Id + "\":[";
+                int startPos = content.IndexOf(searchPattern);
+                
+                if (startPos == -1) return "ID not found";
 
+                startPos += searchPattern.Length - 1; 
+
+                int endPos = content.IndexOf("]", startPos);
+                
+                if (endPos == -1) return "Invalid JSON format";
+
+                string arrayContent = content.Substring(startPos, endPos - startPos + 1);
+                
+                return arrayContent.Replace(" ", "").Replace("\n", "").Replace("\r", "");
+            }
+            catch
+            {
+                return "Parsing error";
+            }
+        }
         public object ToString(bool devMode,string base64Id,string  apiCall)
         {
             if (devMode)
@@ -152,9 +174,7 @@ namespace DesigoClimatixApi
             {
                 if (string.IsNullOrEmpty(this.ErrorMessage))
                 {
-                    var obj = JObject.Parse(this.Content);
-                    var value = obj["values"][base64Id];
-                    return value.ToString(Newtonsoft.Json.Formatting.None);
+                    return GetValueWithoutLib(this.Content,base64Id);
                 }
                 else
                 {
