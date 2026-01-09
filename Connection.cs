@@ -9,8 +9,16 @@ namespace DesigoClimaticApi
         private readonly string _pin;
         private readonly string _authHeaderValue;
         private readonly bool _dev = false;
-        private static readonly HttpClient _client = new() { Timeout = TimeSpan.FromSeconds(15) };
+        private readonly HttpClient _client ;
 
+        public string GetBaseUrl()
+        {
+            return _baseUrl;
+        }
+        public string GetAuthHeaderValue()
+        {
+            return _authHeaderValue;
+        }
         /// <summary>
         /// Create a connection to a Controler
         /// </summary>
@@ -25,15 +33,25 @@ namespace DesigoClimaticApi
             var authString = $"{username}:{password}";
             _authHeaderValue = Convert.ToBase64String(Encoding.UTF8.GetBytes(authString));
             _dev = dev;
+            _client = new() { Timeout = TimeSpan.FromSeconds(15) };
+        }
+        internal Connection(string username, string password, string ip, string pin,HttpClient client,bool dev = false)
+        {
+            _baseUrl = $"{ip}/JSONGEN.HTML?FN=";
+            _pin = pin;
+            var authString = $"{username}:{password}";
+            _authHeaderValue = Convert.ToBase64String(Encoding.UTF8.GetBytes(authString));
+            _dev = dev;
+            _client = client;
         }
         /// <summary>
         /// Function used to read a point
         /// </summary>
         /// <param name="base64Id">A base64 Id of a point you want to read</param>
         /// <returns>Return a value or an error if something went wrong</returns>
-        public string ReadValue(string base64Id)
+        public object ReadValue(string base64Id)
         { 
-            return  SendRequest($"{_baseUrl}Read&OA={base64Id}&PIN={_pin}").ToString(_dev,base64Id);
+            return  SendRequest(BuildReadUrl(base64Id)).ToString(_dev,base64Id);
         }
         /// <summary>
         /// Function used to write a value to a point
@@ -41,15 +59,15 @@ namespace DesigoClimaticApi
         /// <param name="base64Id">A base64 Id of a point you want to read</param>
         /// <param name="value">Value that will be writen to a point</param>
         /// <returns>Return a value or an error if something went wrong</returns>
-        public string WriteValue(string base64Id, string value)
+        public object WriteValue(string base64Id, string value)
         {
-            return SendRequest($"{_baseUrl}Write&OA={base64Id};{value}&PIN={_pin}").ToString(_dev,base64Id);
+            return SendRequest(BuildWriteUrl(base64Id,value)).ToString(_dev,base64Id);
         }
         /// <summary>
         /// Used to send a request to a endpoint woth auth
         /// </summary>
-       private ApiResponse SendRequest(string url)
-       {
+        internal ApiResponse SendRequest(string url)
+        {
             var result = new ApiResponse();
             try
             {
@@ -73,6 +91,15 @@ namespace DesigoClimaticApi
                 return result;
             }   
         }
+
+        internal string BuildReadUrl(string base64Id)
+        {
+            return $"{_baseUrl}Read&OA={base64Id}&PIN={_pin}";
+        }
+        internal string BuildWriteUrl(string base64Id , string value)
+        {
+            return $"{_baseUrl}Write&OA={base64Id};{value}&PIN={_pin}";
+        }
     }   
 
    public class ApiResponse
@@ -82,19 +109,33 @@ namespace DesigoClimaticApi
         public string Content { get; set; } = string.Empty;
         public string ErrorMessage { get; set; } = string.Empty;
 
-        public string ToString(bool devMode,string base64Id)
+        public object ToString(bool devMode,string base64Id)
         {
             if (devMode)
             {
                 if (string.IsNullOrEmpty(this.ErrorMessage))
                 {
-                    return $"Success: {IsSuccess}, Status: {StatusCode}, Content: {Content}, Error: {ErrorMessage}, Point: {base64Id}";
+                return new 
+                    {
+                        IsSuccess = this.IsSuccess,
+                        StatusCode = this.StatusCode,
+                        Content = this.Content,
+                        ErrorMessage = this.ErrorMessage,
+                        PointId = base64Id
+                    };              
                 }
                 else
                 {
-                    return $"Error: {IsSuccess}, Status: {StatusCode}, Content: {Content}, Error: {ErrorMessage} Point: {base64Id}";
+                  return new 
+                    {
+                        IsSuccess = this.IsSuccess,
+                        StatusCode = this.StatusCode,
+                        Content = this.Content,
+                        ErrorMessage = this.ErrorMessage,
+                        PointId = base64Id
+                    };              
                 }
-            }
+                }
             else
             {
                 if (string.IsNullOrEmpty(this.ErrorMessage))
@@ -103,7 +144,10 @@ namespace DesigoClimaticApi
                 }
                 else
                 {
-                    return this.ErrorMessage;
+                    return new
+                    {
+                        Error = this.ErrorMessage
+                    };
                 }
             }
         }
