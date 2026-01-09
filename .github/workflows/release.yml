@@ -37,6 +37,6 @@ jobs:
           name: Release v${{ github.run_number }}
           draft: false
           prerelease: false
-          files: bin/Release/netstandard2.0/DesigoClimaticApi.dll
+          files: bin/Release/netstandard2.0/DesigoClimatixApi.dll
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
