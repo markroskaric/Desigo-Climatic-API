@@ -31,14 +31,14 @@ var con = new climatix.Connection(
 // Read value
 // Parameter: (base64Id)
 var resultRead = con.ReadValue("AiN4e05FAAE=");
-console.print("Current Value: " + resultRead);
+console("Current Value: " + resultRead);
 
 // Write value
 // Parameters: (base64Id, value)
 // "AiN4e05FAAE=" is the Point ID
 // "1" is the new value you want to set
 var resultWrite = con.WriteValue("AiN4e05FAAE=", "1");
-console.print("Write Result: " + resultWrite);
+console("Write Result: " + resultWrite);
 ```
 
 ## 🔧 Advanced Features & Debugging
@@ -81,12 +81,12 @@ var con = new climatix.Connection(
 // Read value
 // Parameter: (base64Id)
 var resultRead = con.ReadValue("AiN4e05FAAE=");
-console.print("Current Value: " + resultRead);
+console("Current Value: " + resultRead);
 
 // Write value
 // Parameters: (base64Id, value)
 // "AiN4e05FAAE=" is the Point ID
 // "1" is the new value you want to set
 var resultWrite = con.WriteValue("AiN4e05FAAE=", "1");
-console.print("Write Result: " + resultWrite);
+console("Write Result: " + resultWrite);
 ```

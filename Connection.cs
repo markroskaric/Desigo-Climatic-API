@@ -60,7 +60,7 @@ namespace DesigoClimatixApi
         /// <returns>Return a value or an error if something went wrong</returns>
         public object ReadValue(string base64Id)
         { 
-            return  SendRequest(BuildReadUrl(base64Id)).ToString(_dev,base64Id);
+            return  SendRequest(BuildReadUrl(base64Id)).ToString(_dev,base64Id,BuildReadUrl(base64Id));
         }
         /// <summary>
         /// Function used to write a value to a point
@@ -70,7 +70,7 @@ namespace DesigoClimatixApi
         /// <returns>Return a value or an error if something went wrong</returns>
         public object WriteValue(string base64Id, string value)
         {
-            return SendRequest(BuildWriteUrl(base64Id,value)).ToString(_dev,base64Id);
+            return SendRequest(BuildWriteUrl(base64Id,value)).ToString(_dev,base64Id,BuildWriteUrl(base64Id,value));
         }
         /// <summary>
         /// Used to send a request to a endpoint woth auth
@@ -118,7 +118,7 @@ namespace DesigoClimatixApi
         public string Content { get; set; } = string.Empty;
         public string ErrorMessage { get; set; } = string.Empty;
 
-        public object ToString(bool devMode,string base64Id)
+        public object ToString(bool devMode,string base64Id,string  apiCall)
         {
             if (devMode)
             {
@@ -130,7 +130,8 @@ namespace DesigoClimatixApi
                         StatusCode = this.StatusCode,
                         Content = this.Content,
                         ErrorMessage = this.ErrorMessage,
-                        PointId = base64Id
+                        PointId = base64Id,
+                        APICaall = apiCall 
                     };              
                 }
                 else
@@ -141,7 +142,8 @@ namespace DesigoClimatixApi
                         StatusCode = this.StatusCode,
                         Content = this.Content,
                         ErrorMessage = this.ErrorMessage,
-                        PointId = base64Id
+                        PointId = base64Id,
+                        APICaall = apiCall 
                     };              
                 }
                 }
