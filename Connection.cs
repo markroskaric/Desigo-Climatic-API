@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using System.Net.Http.Headers;
 
-namespace DesigoClimaticApi
+namespace DesigoClimatixApi
 {
     public class Connection 
     {

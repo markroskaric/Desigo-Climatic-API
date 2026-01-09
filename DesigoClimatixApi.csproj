@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-  <DefaultItemExcludes>$(DefaultItemExcludes);DesigoClimaticApi.Tests/**</DefaultItemExcludes>
+  <DefaultItemExcludes>$(DefaultItemExcludes);DesigoClimatixApi.Tests/**</DefaultItemExcludes>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -11,7 +11,7 @@
   <ItemGroup>
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
-      <_Parameter1>DesigoClimaticApi.Tests</_Parameter1>
+      <_Parameter1>DesigoClimatixApi.Tests</_Parameter1>
     </AssemblyAttribute>
   </ItemGroup>
 

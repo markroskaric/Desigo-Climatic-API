@@ -2,7 +2,7 @@
 using System.Net;
 using System.Text;
 
-namespace DesigoClimaticApi.Tests;
+namespace DesigoClimatixApi.Tests;
 
 public class ConnectionTest
 {
