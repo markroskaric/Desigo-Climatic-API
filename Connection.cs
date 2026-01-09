@@ -119,22 +119,41 @@ namespace DesigoClimatixApi
         public string ErrorMessage { get; set; } = string.Empty;
         public string ParseClimaticValue(string content, string base64Id)
         {
-            if (string.IsNullOrEmpty(content)) return "Empty Response";
+          if (string.IsNullOrEmpty(content)) return "Empty Response";
 
             try
             {
                 string[] parts = content.Split(new string[] { base64Id }, StringSplitOptions.None);
-                
                 if (parts.Length < 2) return "ID not found";
 
-                int startBracket = parts[1].IndexOf("[");
-                int endBracket = parts[1].IndexOf("]");
+                string dataPart = parts[1];
+                string rawValue;
 
-                if (startBracket == -1 || endBracket == -1) return "Format error";
+                int startBracket = dataPart.IndexOf("[");
+                int endBracket = dataPart.IndexOf("]");
 
-                string rawValue = parts[1].Substring(startBracket, endBracket - startBracket + 1);
-                
-                return rawValue.Replace(" ", "").Replace("\n", "").Replace("\r", "").Replace("\t", "");
+                if (startBracket != -1 && endBracket != -1)
+                {
+                    int length = endBracket - (startBracket + 1);
+                    rawValue = dataPart.Substring(startBracket + 1, length);
+                    
+                    if (rawValue.Contains(","))
+                    {
+                        rawValue = rawValue.Split(',')[0];
+                    }
+                }
+                else
+                {
+                    int colonPos = dataPart.IndexOf(":");
+                    if (colonPos == -1) return "Format error";
+                    
+                    int endPos = dataPart.IndexOfAny(new char[] { ',', '}' }, colonPos);
+                    if (endPos == -1) endPos = dataPart.Length;
+                    
+                    rawValue = dataPart.Substring(colonPos + 1, endPos - (colonPos + 1));
+                }
+
+                return rawValue.Replace("\"", "").Replace(" ", "").Replace("\n", "").Replace("\r", "").Trim();
             }
             catch
             {

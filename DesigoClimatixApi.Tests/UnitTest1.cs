@@ -61,7 +61,7 @@ public class ConnectionTest
     //     var con = new Connection("ADMIN", "SBTAdmin!", "http://192.168.1.113", "4000");
 
     //     string expected = ("[-2.38,-2.38]");
-    //     object result = con.ReadValue("AyJaMNclAAE=");
+    //     object result = con.ReadValue("AyJaMNclBwE=");
         
     //     Assert.Equal(expected, result.ToString());
     // }
