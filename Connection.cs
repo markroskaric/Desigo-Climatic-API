@@ -153,8 +153,8 @@ namespace DesigoClimatixApi
                 if (string.IsNullOrEmpty(this.ErrorMessage))
                 {
                     var obj = JObject.Parse(this.Content);
-                    var value = obj["values"][base64Id][0];
-                    return value;
+                    var value = obj["values"][base64Id];
+                    return value.ToString(Newtonsoft.Json.Formatting.None);
                 }
                 else
                 {

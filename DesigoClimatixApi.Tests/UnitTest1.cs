@@ -70,16 +70,14 @@ public class ConnectionTest
     public void SendRequest_ShouldParseResponse_WhenEverythingIsOk()
     {
         
-        ApiResponse api = new ApiResponse();
-        api.Content = "{\"values\":{\"CiOOOscSAAE=\":[22.5]}}";
-         object v = api.ToString(false,"CiOOOscSAAE=","test");
+    ApiResponse api = new ApiResponse();
+    api.Content = """{"values":{"CiOOOscSAAE=":[22.5,45]}}""";
+    string pointId = "CiOOOscSAAE=";
+    string expected = "[22.5,45]"; 
 
-      
+    object v = api.ToString(false, pointId, "test");
 
-        string expected = ("22.5");
-       
-        
-        Assert.Contains(expected, v.ToString());
+    Assert.Contains(expected, v.ToString());
     }
 }
 public class FakeSiemensHandler : HttpMessageHandler
