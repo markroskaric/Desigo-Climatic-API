@@ -85,49 +85,6 @@ namespace DesigoClimatixApi
         public int StatusCode { get; set; }
         public string Content { get; set; } = string.Empty;
         public string ErrorMessage { get; set; } = string.Empty;
-        internal string ParseClimatixValue(string content, string base64Id)
-        {
-          if (string.IsNullOrEmpty(content)) return "Empty Response";
-
-            try
-            {
-                string[] parts = content.Split(new string[] { base64Id }, StringSplitOptions.None);
-                if (parts.Length < 2) return "ID not found";
-
-                string dataPart = parts[1];
-                string rawValue;
-
-                int startBracket = dataPart.IndexOf("[");
-                int endBracket = dataPart.IndexOf("]");
-
-                if (startBracket != -1 && endBracket != -1)
-                {
-                    int length = endBracket - (startBracket + 1);
-                    rawValue = dataPart.Substring(startBracket + 1, length);
-                    
-                    if (rawValue.Contains(","))
-                    {
-                        rawValue = rawValue.Split(',')[0];
-                    }
-                }
-                else
-                {
-                    int colonPos = dataPart.IndexOf(":");
-                    if (colonPos == -1) return "Format error";
-                    
-                    int endPos = dataPart.IndexOfAny(new char[] { ',', '}' }, colonPos);
-                    if (endPos == -1) endPos = dataPart.Length;
-                    
-                    rawValue = dataPart.Substring(colonPos + 1, endPos - (colonPos + 1));
-                }
-
-                return rawValue.Replace("\"", "").Replace(" ", "").Replace("\n", "").Replace("\r", "").Trim();
-            }
-            catch
-            {
-                return "Parsing error";
-            }
-        }
         internal object ToFormattedResult(bool devMode,string base64Id,string  apiCall, ApiOperation operation)
         {
             if (devMode)
@@ -155,7 +112,7 @@ namespace DesigoClimatixApi
                 }
                 else 
                 {
-                    return ParseClimatixValue(this.Content, base64Id);
+                    return this.Content;
                 }
             }
         }

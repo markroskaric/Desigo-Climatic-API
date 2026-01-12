@@ -56,32 +56,6 @@ public class ConnectionTest
         Assert.Equal(expectedReadUrl,resultBuildReadUrl);
     }
     
-    [Fact]
-    public void ValidateFormatResultRead()
-    {
-        string[] formats = [
-            """{"values":{"AyJaMNclDQE=":".IO.P.AI.TZS.Val"}}""",
-            """{"values":{"AyJaMNclDQE=":"°C"}}""",
-            """{"values":{"AyJaMNclDQE=":[5,5]}}""",
-            """{"values":{"AyJaMNclDQE=":[100,100]}}""",
-            """{"values":{"AyJaMNclDQE=":"100"}}"""
-        ];
-        
-        string[] results = [".IO.P.AI.TZS.Val", "°C", "5", "100", "100"];
-        string base64Id = "AyJaMNclDQE=";
-        
-        ApiResponse response = new ApiResponse();
-        
-        for (int i = 0; i < formats.Length; i++)
-        {
-            response.Content = formats[i];
-            string expected = results[i];
-
-            var formatedResponse = response.ToFormattedResult(false, base64Id, "test-url", ApiOperation.Read);
-
-            Assert.Equal(expected, formatedResponse.ToString());
-        }
-    }
 
     [Fact]
     public void ValidateFormatResultWrite()
