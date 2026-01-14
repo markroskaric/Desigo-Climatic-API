@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DesigoClimatixApi.csproj" />
+    <ProjectReference Include="..\ClimatixRestApi\ClimatixRestApi.csproj" />
   </ItemGroup>
 
 </Project>

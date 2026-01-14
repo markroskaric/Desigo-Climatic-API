@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.2.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesigoClimatixApi", "DesigoClimatixApi.csproj", "{84767993-E7B9-AC9D-4814-77F01C425B91}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClimatixRestApi", "ClimatixRestApi/ClimatixRestApi.csproj", "{84767993-E7B9-AC9D-4814-77F01C425B91}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesigoClimatixApi.Tests", "DesigoClimatixApi.Tests\DesigoClimatixApi.Tests.csproj", "{50FE27AC-D527-4430-85C7-49A4A306DECB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClimatixRestApi.Tests", "ClimatixRestApi.Tests/ClimatixRestApi.Tests.csproj", "{50FE27AC-D527-4430-85C7-49A4A306DECB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,9 +1,10 @@
 name: Create Release
 
 on:
+  workflow_dispatch:
   push:
-    branches:
-      - main
+    tags:
+      - "v*"
 
 jobs:
   build-and-release:
@@ -14,6 +15,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
@@ -33,10 +36,10 @@ jobs:
         if: success()
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v${{ github.run_number }}
-          name: Release v${{ github.run_number }}
+          tag_name: ${{ github.ref_type == 'tag' && github.ref_name || format('v{0}', github.run_number) }}
+          name: Release ${{ github.ref_type == 'tag' && github.ref_name || format('v{0}', github.run_number) }}
           draft: false
           prerelease: false
-          files: bin/Release/netstandard2.0/DesigoClimatixApi.dll
+          files: src/ClimatixRestApi/bin/Release/netstandard2.0/ClimatixRestApi.dll
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

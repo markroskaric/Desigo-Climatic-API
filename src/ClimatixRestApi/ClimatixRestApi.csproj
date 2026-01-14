@@ -9,9 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Net.Http" Version="4.3.4" />
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
-      <_Parameter1>DesigoClimatixApi.Tests</_Parameter1>
+      <_Parameter1>ClimatixRestApi.Tests</_Parameter1>
     </AssemblyAttribute>
   </ItemGroup>
 
